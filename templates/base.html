@@ -63,21 +63,21 @@
 	<!-- Header -->
 	<header class="header shop">
 		<!-- Topbar -->
-		<div class="topbar">
+		<!-- <div class="topbar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-4 col-md-12 col-12">
-						<!-- Top Left -->
+						
 						<div class="top-left">
 							<ul class="list-main">
 								<li><i class="ti-headphone-alt"></i> +060 (800) 801-582</li>
 								<li><i class="ti-email"></i> support@shophub.com</li>
 							</ul>
 						</div>
-						<!--/ End Top Left -->
+						
 					</div>
 					<div class="col-lg-8 col-md-12 col-12">
-						<!-- Top Right -->
+						
 						<div class="right-content">
 							<ul class="list-main">
 								<li><i class="ti-location-pin"></i> Store location</li>
@@ -86,11 +86,11 @@
 								<li><i class="ti-power-off"></i><a href="login.html#">Login</a></li>
 							</ul>
 						</div>
-						<!-- End Top Right -->
+						
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<!-- End Topbar -->
 		<div class="middle-inner">
 			<div class="container">
@@ -142,33 +142,34 @@
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							<div class="sinlge-bar shopping">
-								<a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">2</span></a>
+								<a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{items.count}}</span></a>
 								<!-- Shopping Item -->
 								<div class="shopping-item">
 									<div class="dropdown-cart-header">
-										<span>2 Items</span>
+										<span>{{items.count}} Items</span>
 										<a href="#">View Cart</a>
 									</div>
 									<ul class="shopping-list">
+										
+										{% for item in items  %}
+											
+										
+											
 										<li>
 											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-											<h4><a href="#">Woman Ring</a></h4>
-											<p class="quantity">1x - <span class="amount">$99.00</span></p>
+											<a class="cart-img" href="#"><img src="{{item.Product.imageURL}}" alt="#"></a>
+											<h4><a href="#">{{item.Product.name}}</a></h4>
+											<p class="quantity">{{item.quantity}}x - <span class="amount">${{item.get_total}}</span></p>
 										</li>
-										<li>
-											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-											<h4><a href="#">Woman Necklace</a></h4>
-											<p class="quantity">1x - <span class="amount">$35.00</span></p>
-										</li>
+										{% endfor %}
+										
 									</ul>
 									<div class="bottom">
 										<div class="total">
 											<span>Total</span>
-											<span class="total-amount">$134.00</span>
+											<span class="total-amount">${{order.get_cart_total|floatformat}}</span>
 										</div>
-										<a href="checkout.html" class="btn animate">Checkout</a>
+										<a href="{% url 'checkout' %}" class="btn animate">Checkout</a>
 									</div>
 								</div>
 								<!--/ End Shopping Item -->
