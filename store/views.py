@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from .models import *
 
 # Create your views here.
@@ -13,6 +13,7 @@ def store(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(Customer=customer,complete=False)
         items = order.orderitem_set.all()
+       
     else:
         items = []
         order = {'get_cart_total':0}
@@ -52,3 +53,10 @@ def contact(request):
 def shopgrid(request):
     context = {}
     return render(request,'shop-grid.html',context)
+
+def productdetails(request,id):
+    products = Product.objects.get(id=id)
+    context = {'products':products}
+    return render(request,'product-details.html',context) 
+
+
