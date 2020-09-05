@@ -42,7 +42,29 @@
 	<link rel="stylesheet" href="{% static 'css/reset.css'%}">
 	<link rel="stylesheet" href="{% static 'style.css'%}">
     <link rel="stylesheet" href="{% static 'css/responsive.css'%}">
+<script type="text/javascript">
 
+	var user = '{{request.user}}'
+
+
+	function getToken(name) {
+		let cookieValue = null;
+		if (document.cookie && document.cookie !== '') {
+			const cookies = document.cookie.split(';');
+			for (let i = 0; i < cookies.length; i++) {
+				const cookie = cookies[i].trim();
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) === (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+		return cookieValue;
+	}
+	const csrftoken = getToken('csrftoken');
+
+</script>
 	
 	
 </head>
@@ -142,32 +164,32 @@
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							<div class="sinlge-bar shopping">
-								<a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{items.count}}</span></a>
+								<a href="{% url 'cart' %}" class="single-icon"><i class="ti-bag"></i> <span class="total-count"></span></a>
 								<!-- Shopping Item -->
 								<div class="shopping-item">
 									<div class="dropdown-cart-header">
-										<span>{{items.count}} Items</span>
+										<span> Items</span>
 										<a href="#">View Cart</a>
 									</div>
 									<ul class="shopping-list">
 										
-										{% for item in items  %}
+									
 											
 										
 											
 										<li>
 											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="{{item.Product.imageURL}}" alt="#"></a>
-											<h4><a href="#">{{item.Product.name}}</a></h4>
-											<p class="quantity">{{item.quantity}}x - <span class="amount">${{item.get_total}}</span></p>
+											<a class="cart-img" href="#"><img src="" alt="#"></a>
+											<h4><a href="#"></a></h4>
+											<p class="quantity">x - <span class="amount">$</span></p>
 										</li>
-										{% endfor %}
+									
 										
 									</ul>
 									<div class="bottom">
 										<div class="total">
 											<span>Total</span>
-											<span class="total-amount">${{order.get_cart_total|floatformat}}</span>
+											<span class="total-amount">$</span>
 										</div>
 										<a href="{% url 'checkout' %}" class="btn animate">Checkout</a>
 									</div>
@@ -379,6 +401,7 @@
 	<!-- /End Footer Area -->
  
 	<!-- Jquery -->
+	<script src="{% static 'js/cartt.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-3.0.0.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
@@ -387,7 +410,7 @@
 	<!-- Bootstrap JS -->
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<!-- Color JS -->
-	<script src="{% static 'js/colors.js' %}"></script>
+	
 	<!-- Slicknav JS -->
 	<script src="{% static 'js/slicknav.min.js' %}"></script>
 	<!-- Owl Carousel JS -->
@@ -410,5 +433,7 @@
 	<script src="{% static 'js/easing.js' %}"></script>
 	<!-- Active JS -->
 	<script src="{% static 'js/active.js' %}"></script>
+
+	
 </body>
 </html>

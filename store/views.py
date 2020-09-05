@@ -1,5 +1,7 @@
 from django.shortcuts import render,HttpResponse
+from django.http import JsonResponse
 from .models import *
+import json
 
 # Create your views here.
 
@@ -59,4 +61,29 @@ def productdetails(request,id):
     context = {'products':products}
     return render(request,'product-details.html',context) 
 
+def updateitem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:',action)
+    print('Product:',productId)
 
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Order.objects.get_or_create(Customer=customer,complete=False)
+
+    orderItem, created = Order.objects.get_or_create(order=order,product=product)
+
+    if action == 'add':
+        orderItem.quantity = (orderItem.quantity + 1)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+
+    return JsonResponse('it was added',safe=False)
+    
